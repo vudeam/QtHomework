@@ -17,15 +17,22 @@ class StudentModel
 
 public:
 
-    using DataType = QVector<Student>;
+    using value_type = Student;
+    using Container = QVector<value_type>;
 
     StudentModel(QObject* parent = nullptr);
-    explicit StudentModel(const DataType& data,
+    explicit StudentModel(const Container& data,
                           QObject* parent = nullptr);
 
     int
     rowCount(const QModelIndex& parentIdx = QModelIndex{}) const override;
 
+    /*!
+     * \brief Number of fields in underlying class
+     *
+     * Number of fields is calculated using enum
+     * containing names of fields.
+     */
     int
     columnCount(const QModelIndex& parentIdx = QModelIndex{}) const override;
 
@@ -39,8 +46,9 @@ public:
 
     QVariant
     data(const QModelIndex& idx,
-         int role) const override;
+         int role = Qt::DisplayRole) const override;
 
+    /*
     bool
     setData(const QModelIndex& idx,
             const QVariant& value,
@@ -55,10 +63,14 @@ public:
     removeRows(int pos,
                int rows,
                const QModelIndex& idx = QModelIndex{}) override;
+    */
+
+    const Container&
+    getStudents() const;
 
 private:
 
-    DataType studentData;
+    Container studentData;
 };
 
 #endif /* STUDENTMODEL_HPP */
