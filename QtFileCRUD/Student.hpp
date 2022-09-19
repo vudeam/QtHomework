@@ -33,6 +33,18 @@ public:
     void
     readJson(const QJsonObject& json);
 
+    enum StudentField
+    {
+        Name,
+        Surname,
+        LastName,
+        Course,
+        Enroll,
+        Institute,
+        Chair,
+        IsBudget
+    };
+
     QString m_name;
     QString m_surname;
     QString m_lastName;
