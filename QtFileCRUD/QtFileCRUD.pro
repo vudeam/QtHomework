@@ -10,12 +10,14 @@ CONFIG += c++17
 
 SOURCES += \
     Student.cpp \
+    StudentModel.cpp \
     main.cpp \
     QtFileCRUD.cpp
 
 HEADERS += \
     QtFileCRUD.hpp \
-    Student.hpp
+    Student.hpp \
+    StudentModel.hpp
 
 FORMS += \
     QtFileCRUD.ui
