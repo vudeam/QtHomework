@@ -91,11 +91,6 @@ StudentModel::data(const QModelIndex& idx,
         return QVariant{};
     }
 
-    // if (idx.column() >= (Field::IsBudget + 1) || idx.column() < 0)
-    // {
-    //     return QVariant{};
-    // }
-
     switch (role)
     {
     case Qt::DisplayRole:
@@ -104,14 +99,14 @@ StudentModel::data(const QModelIndex& idx,
 
         switch (idx.column())
         {
-        case Field::Name: return student.m_name;
-        case Field::Surname: return student.m_surname;
-        case Field::LastName: return student.m_lastName;
-        case Field::Course: return QString::number(student.m_course);
-        case Field::Enroll: return student.m_enroll.toString();
+        case Field::Name:      return student.m_name;
+        case Field::Surname:   return student.m_surname;
+        case Field::LastName:  return student.m_lastName;
+        case Field::Course:    return QString::number(student.m_course);
+        case Field::Enroll:    return student.m_enroll.toString();
         case Field::Institute: return student.m_institute;
-        case Field::Chair: return student.m_chair;
-        case Field::IsBudget: return student.m_isBudget ? QStringLiteral("Yes") : QStringLiteral("No");
+        case Field::Chair:     return student.m_chair;
+        case Field::IsBudget:  return student.m_isBudget ? QStringLiteral("Yes") : QStringLiteral("No");
         }
 
     }
