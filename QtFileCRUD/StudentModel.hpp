@@ -53,7 +53,6 @@ public:
             const QVariant& value,
             int role = Qt::EditRole) override;
 
-    /*
     bool
     insertRows(int pos,
                int rows,
@@ -63,7 +62,6 @@ public:
     removeRows(int pos,
                int rows,
                const QModelIndex& idx = QModelIndex{}) override;
-    */
 
     const Container&
     getStudents() const;

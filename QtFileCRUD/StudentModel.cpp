@@ -183,6 +183,48 @@ StudentModel::setData(const QModelIndex& idx,
     return false;
 }
 
+bool
+StudentModel::insertRows(int pos,
+                         int nrows,
+                         const QModelIndex& parentIdx)
+{
+    Q_UNUSED(parentIdx);
+
+    beginInsertRows(QModelIndex{},
+                    pos,
+                    pos + nrows - 1);
+
+    for (auto row{0}; row < nrows; row++)
+    {
+        studentData.insert(pos, Student{});
+    }
+
+    endInsertRows();
+
+    return true;
+}
+
+bool
+StudentModel::removeRows(int pos,
+                         int nrows,
+                         const QModelIndex& parentIdx)
+{
+    Q_UNUSED(parentIdx);
+
+    beginRemoveRows(QModelIndex{},
+                    pos,
+                    pos + nrows - 1);
+
+    for (auto row{0}; row < nrows; row++)
+    {
+        studentData.removeAt(row);
+    }
+
+    endRemoveRows();
+
+    return true;
+}
+
 const StudentModel::Container&
 StudentModel::getStudents() const
 {

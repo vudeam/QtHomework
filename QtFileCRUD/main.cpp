@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 {
     QApplication app{argc, argv};
 
-    // QtFileCRUD window{};
+    QtFileCRUD window{};
     // window.show();
 
     Student s;
@@ -28,7 +28,10 @@ int main(int argc, char *argv[])
     QTableView v{};
     StudentModel m{{s, s, s}};
     v.setModel(&m);
-    v.show();
+    // v.show();
+
+    window.setCentralWidget(&v);
+    window.show();
 
     return app.exec();
 }
