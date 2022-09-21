@@ -1,6 +1,9 @@
 #ifndef STUDENT_HPP
 #define STUDENT_HPP
 
+#define JSON_DATE_FORMAT "dd.MM.yyyy"
+#define EMPTY_STR QStringLiteral("")
+
 #include <QDate>
 #include <QJsonObject>
 

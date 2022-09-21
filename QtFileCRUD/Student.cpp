@@ -1,8 +1,5 @@
 #include "Student.hpp"
 
-#define JSON_DATE_FORMAT "dd.MM.yyyy"
-#define EMPTY_STR QStringLiteral("")
-
 
 bool
 Student::operator ==(const Student& other) const

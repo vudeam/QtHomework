@@ -48,12 +48,12 @@ public:
     data(const QModelIndex& idx,
          int role = Qt::DisplayRole) const override;
 
-    /*
     bool
     setData(const QModelIndex& idx,
             const QVariant& value,
             int role = Qt::EditRole) override;
 
+    /*
     bool
     insertRows(int pos,
                int rows,

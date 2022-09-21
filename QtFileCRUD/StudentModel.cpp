@@ -103,7 +103,7 @@ StudentModel::data(const QModelIndex& idx,
         case Field::Surname:   return student.m_surname;
         case Field::LastName:  return student.m_lastName;
         case Field::Course:    return QString::number(student.m_course);
-        case Field::Enroll:    return student.m_enroll.toString();
+        case Field::Enroll:    return student.m_enroll.toString(JSON_DATE_FORMAT);
         case Field::Institute: return student.m_institute;
         case Field::Chair:     return student.m_chair;
         case Field::IsBudget:  return student.m_isBudget ? QStringLiteral("Yes") : QStringLiteral("No");
@@ -113,6 +113,74 @@ StudentModel::data(const QModelIndex& idx,
     }
 
     return QVariant{};
+}
+
+bool
+StudentModel::setData(const QModelIndex& idx,
+                      const QVariant& val,
+                      int role)
+{
+    if (!idx.isValid())
+    {
+        return false;
+    }
+
+    if (idx.row() >= studentData.size() || idx.row() < 0)
+    {
+        return false;
+    }
+
+    if (role == Qt::EditRole)
+    {
+        auto stud{ studentData.value(idx.row()) };
+
+        switch (idx.column())
+        {
+        case Field::Name:
+            // studentData[idx.column()].m_name = val.toString();
+            stud.m_name = val.toString();
+            break;
+        case Field::Surname:
+            // studentData[idx.column()].m_surname = val.toString();
+            stud.m_surname = val.toString();
+            break;
+        case Field::LastName:
+            // studentData[idx.column()].m_lastName = val.toString();
+            stud.m_lastName = val.toString();
+            break;
+        case Field::Course:
+            // studentData[idx.column()].m_course = val.toInt();
+            stud.m_course = val.toInt();
+            break;
+        case Field::Enroll:
+            // studentData[idx.column()].m_enroll = QDate::fromString(val.toString(), JSON_DATE_FORMAT);
+            stud.m_enroll = QDate::fromString(val.toString(), JSON_DATE_FORMAT);
+            break;
+        case Field::Institute:
+            // studentData[idx.column()].m_institute = val.toString();
+            stud.m_institute = val.toString();
+            break;
+        case Field::Chair:
+            // studentData[idx.column()].m_chair = val.toString();
+            stud.m_chair = val.toString();
+            break;
+        case Field::IsBudget:
+            // studentData[idx.column()].m_isBudget = val.toBool();
+            stud.m_isBudget = val.toBool();
+            break;
+        default:
+            return false;
+        }
+
+        studentData.replace(idx.row(), stud);
+        emit dataChanged(idx,
+                         idx,
+                         { Qt::DisplayRole, Qt::EditRole });
+
+        return true;
+    }
+
+    return false;
 }
 
 const StudentModel::Container&
