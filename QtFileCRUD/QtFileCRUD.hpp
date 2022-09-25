@@ -3,19 +3,21 @@
 
 #include <QMainWindow>
 
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class QtFileCRUD; }
 QT_END_NAMESPACE
 
-class QtFileCRUD : public QMainWindow
+class QtFileCRUD
+    : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    QtFileCRUD(QWidget *parent = nullptr);
+    QtFileCRUD(QWidget* parent = nullptr);
     ~QtFileCRUD();
 
 private:
-    Ui::QtFileCRUD *ui;
+    Ui::QtFileCRUD* ui;
 };
-#endif // QTFILECRUD_HPP
+#endif /* QTFILECRUD_HPP */
