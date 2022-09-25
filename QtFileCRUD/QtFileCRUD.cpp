@@ -1,4 +1,5 @@
 #include "QtFileCRUD.hpp"
+#include "SpinBoxDelegate.hpp"
 #include "StudentModel.hpp"
 #include "ui_QtFileCRUD.h"
 
@@ -21,10 +22,13 @@ QtFileCRUD::QtFileCRUD(QWidget* parent)
     s.m_chair = "Kb";
     s.m_isBudget = false;
 
-    auto v = new QTableView{};
-    auto m = new StudentModel{{s, s, s}};
+    auto v{ new QTableView{} };
+    auto m{ new StudentModel{{s, s, s}} };
 
     v->setModel(m);
+
+    auto d{ new SpinBoxDelegate{} };
+    v->setItemDelegateForColumn(Student::Course, d);
 
     setCentralWidget(v);
 }
