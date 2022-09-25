@@ -94,6 +94,7 @@ StudentModel::data(const QModelIndex& idx,
     switch (role)
     {
     case Qt::DisplayRole:
+    case Qt::EditRole: /* same data can be supplied to the editor */
     {
         const auto& student = studentData.at(idx.row());
 

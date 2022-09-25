@@ -36,6 +36,9 @@ public:
     void
     readJson(const QJsonObject& json);
 
+    static constexpr auto COURSE_MIN { 0 };
+    static constexpr auto COURSE_MAX { 6 };
+
     enum StudentField
     {
         Name,
