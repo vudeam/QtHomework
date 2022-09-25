@@ -91,12 +91,11 @@ StudentModel::data(const QModelIndex& idx,
         return QVariant{};
     }
 
+    const auto& student{ studentData.at(idx.row()) };
+
     switch (role)
     {
     case Qt::DisplayRole:
-    case Qt::EditRole: /* same data can be supplied to the editor */
-    {
-        const auto& student = studentData.at(idx.row());
 
         switch (idx.column())
         {
@@ -109,8 +108,17 @@ StudentModel::data(const QModelIndex& idx,
         case Field::Chair:     return student.m_chair;
         case Field::IsBudget:  return student.m_isBudget ? QStringLiteral("Yes") : QStringLiteral("No");
         }
+        break;
 
-    }
+    case Qt::EditRole:
+
+        switch (idx.column())
+        {
+        case Field::Course: return student.m_course;
+        case Field::Enroll: return student.m_enroll;
+        }
+        break;
+
     }
 
     return QVariant{};
@@ -155,7 +163,8 @@ StudentModel::setData(const QModelIndex& idx,
             break;
         case Field::Enroll:
             // studentData[idx.column()].m_enroll = QDate::fromString(val.toString(), JSON_DATE_FORMAT);
-            stud.m_enroll = QDate::fromString(val.toString(), JSON_DATE_FORMAT);
+            // stud.m_enroll = QDate::fromString(val.toString(), JSON_DATE_FORMAT);
+            stud.m_enroll = val.toDate();
             break;
         case Field::Institute:
             // studentData[idx.column()].m_institute = val.toString();
