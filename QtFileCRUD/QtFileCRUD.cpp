@@ -1,4 +1,5 @@
 #include "QtFileCRUD.hpp"
+#include "DateEditDelegate.hpp"
 #include "SpinBoxDelegate.hpp"
 #include "StudentModel.hpp"
 #include "ui_QtFileCRUD.h"
@@ -27,8 +28,11 @@ QtFileCRUD::QtFileCRUD(QWidget* parent)
 
     v->setModel(m);
 
-    auto d{ new SpinBoxDelegate{} };
-    v->setItemDelegateForColumn(Student::Course, d);
+    auto d1{ new SpinBoxDelegate{} };
+    v->setItemDelegateForColumn(Student::Course, d1);
+
+    auto d2{ new DateEditDelegate{} };
+    v->setItemDelegateForColumn(Student::Enroll, d2);
 
     setCentralWidget(v);
 }

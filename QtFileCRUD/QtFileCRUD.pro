@@ -9,6 +9,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    DateEditDelegate.cpp \
     SpinBoxDelegate.cpp \
     Student.cpp \
     StudentModel.cpp \
@@ -16,6 +17,7 @@ SOURCES += \
     QtFileCRUD.cpp
 
 HEADERS += \
+    DateEditDelegate.hpp \
     QtFileCRUD.hpp \
     SpinBoxDelegate.hpp \
     Student.hpp \

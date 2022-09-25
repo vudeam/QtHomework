@@ -26,10 +26,10 @@ void
 SpinBoxDelegate::setEditorData(QWidget* editor,
                                const QModelIndex& idx) const
 {
-    auto courseValue{ idx.model()->data(idx, Qt::EditRole).toInt() };
+    auto modelCourseValue{ idx.model()->data(idx, Qt::EditRole).toInt() };
     auto spinBox{ static_cast<QSpinBox*>(editor) };
 
-    spinBox->setValue(courseValue);
+    spinBox->setValue(modelCourseValue);
 }
 
 void
@@ -40,9 +40,9 @@ SpinBoxDelegate::setModelData(QWidget* editor,
     auto spinBox{ static_cast<QSpinBox*>(editor) };
     spinBox->interpretText();
 
-    auto courseValue{ spinBox->value() };
+    auto editorCourseValue{ spinBox->value() };
 
-    model->setData(idx, courseValue); /* data is set for EditRole by default */
+    model->setData(idx, editorCourseValue); /* data is set using EditRole by default */
 }
 
 void
