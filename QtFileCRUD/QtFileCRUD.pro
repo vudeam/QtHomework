@@ -23,8 +23,8 @@ HEADERS += \
     Student.hpp \
     StudentModel.hpp
 
-FORMS += \
-    QtFileCRUD.ui
+# FORMS += \
+#     QtFileCRUD.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

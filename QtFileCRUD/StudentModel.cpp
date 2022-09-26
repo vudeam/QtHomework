@@ -68,7 +68,8 @@ StudentModel::headerData(int section,
         {
             return headerNames[section];
         }
-    } else if (orientation == Qt::Vertical)
+    }
+    else if (orientation == Qt::Vertical)
     {
         /* return row number */
         return QString::number(section);
