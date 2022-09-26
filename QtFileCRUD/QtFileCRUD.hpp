@@ -3,12 +3,10 @@
 
 #include "StudentModel.hpp"
 
+#include <QItemSelection>
 #include <QMainWindow>
+#include <QTableView>
 
-
-// QT_BEGIN_NAMESPACE
-// namespace Ui { class QtFileCRUD; }
-// QT_END_NAMESPACE
 
 class QtFileCRUD
     : public QMainWindow
@@ -17,13 +15,12 @@ class QtFileCRUD
 
 public:
 
-    using ModelType = StudentModel;
-    using ModelPtr = ModelType*;
-
     QtFileCRUD(QWidget* parent = nullptr);
-    ~QtFileCRUD();
 
 private slots:
+
+    void
+    updateActions(const QItemSelection& selection);
 
     void
     openFile();
@@ -36,7 +33,10 @@ private:
     void
     createMenus();
 
-    ModelPtr table;
-    // Ui::QtFileCRUD* ui;
+    QAction* addAct;
+    QAction* removeAct;
+
+    StudentModel* model;
+    QTableView* view;
 };
 #endif /* QTFILECRUD_HPP */
