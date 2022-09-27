@@ -218,10 +218,8 @@ StudentModel::insertRows(int pos,
 bool
 StudentModel::removeRows(int pos,
                          int nrows,
-                         const QModelIndex& parentIdx)
+                         const QModelIndex&)
 {
-    Q_UNUSED(parentIdx);
-
     beginRemoveRows(QModelIndex{},
                     pos,
                     pos + nrows - 1);
