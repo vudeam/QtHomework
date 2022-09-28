@@ -226,7 +226,7 @@ StudentModel::removeRows(int pos,
 
     for (auto row{0}; row < nrows; row++)
     {
-        studentData.removeAt(row);
+        studentData.removeAt(pos);
     }
 
     endRemoveRows();
