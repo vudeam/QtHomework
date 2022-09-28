@@ -133,8 +133,6 @@ QtFileCRUD::openFile()
         return;
     }
 
-    qDebug() << "rows: " << studentModel->rowCount();
-
     /* clear table (remove all rows from 0 to end) */
     studentModel->removeRows(0,
                              studentModel->rowCount());
@@ -145,13 +143,9 @@ QtFileCRUD::openFile()
      */
     for (const auto& item : jsonDoc.array())
     {
-        // fromFile.readJson(stud.toObject());
-         auto stud{ Student::fromJson(item.toObject()) };
+        auto stud{ Student::fromJson(item.toObject()) };
 
-        qDebug() << item;
-        qDebug() << stud.m_enroll;
-
-        studentModel->insertRows(studentModel->rowCount(), 1);
+        addStudentEntry(stud);
     }
 }
 
@@ -162,8 +156,36 @@ QtFileCRUD::saveFile()
 }
 
 void
-QtFileCRUD::addStudentEntry(const Student&)
+QtFileCRUD::addStudentEntry(const Student& stud)
 {
+    using Field = Student::StudentField;
+
+    const auto insertRow{ studentModel->rowCount() };
+
+    studentModel->insertRows(insertRow,
+                             1);
+
+    /* set each column with corrensponding field */
+    for (auto field{0}; field <= Student::IsBudget; field++)
+    {
+        auto idx{ studentModel->index(insertRow, field) };
+        QVariant val{};
+
+        switch (field)
+        {
+        case Field::Name:      val = stud.m_name; break;
+        case Field::Surname:   val = stud.m_surname; break;
+        case Field::LastName:  val = stud.m_lastName; break;
+        case Field::Course:    val = stud.m_course; break;
+        case Field::Enroll:    val = stud.m_enroll; break;
+        case Field::Institute: val = stud.m_institute; break;
+        case Field::Chair:     val = stud.m_chair; break;
+        case Field::IsBudget:  val = stud.m_isBudget; break;
+        }
+
+        studentModel->setData(idx,
+                              val);
+    }
 }
 
 void
