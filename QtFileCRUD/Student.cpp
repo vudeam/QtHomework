@@ -27,10 +27,14 @@ Student::writeJson(QJsonObject& json) const
     json["is_budget"] = m_isBudget;
 }
 
+/**
+ * TODO: maybe rewrite with list of keys
+ */
 Student
 Student::fromJson(const QJsonObject& json)
 {
     Student result{};
+
     if (json.contains(QStringLiteral("name")))
     {
         result.m_name = json["name"].toString(EMPTY_STR);
@@ -61,7 +65,7 @@ Student::fromJson(const QJsonObject& json)
     }
     if (json.contains("is_budget"))
     {
-        result.m_chair = json["is_budget"].toBool(false);
+        result.m_isBudget = json["is_budget"].toBool(false);
     }
 
     return result;
