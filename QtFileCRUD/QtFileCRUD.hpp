@@ -22,6 +22,14 @@ private slots:
     void
     updateActions(const QItemSelection& selection);
 
+    /*!
+     * \brief Read list of Students from JSON file.
+     *
+     * This methods gets open file name via dialog, reads JSON array from it
+     * and calls another method to fill new row in the table with data.
+     *
+     * \sa QFileDialog
+     */
     void
     openFile();
 
@@ -33,10 +41,13 @@ private:
     void
     createMenus();
 
+    void
+    addStudentEntry(const Student& stud);
+
     QAction* addAct;
     QAction* removeAct;
 
-    StudentModel* model;
-    QTableView* view;
+    StudentModel* studentModel;
+    QTableView* studentView;
 };
 #endif /* QTFILECRUD_HPP */

@@ -3,14 +3,18 @@
 #include "QtFileCRUD.hpp"
 
 #include <QFileDialog>
+#include <QJsonArray>
+#include <QJsonDocument>
 #include <QMenuBar>
 #include <QMessageBox>
+
+#include <QDebug>
 
 
 QtFileCRUD::QtFileCRUD(QWidget* parent)
     : QMainWindow{parent}
-    , model{new StudentModel{{}, this}}
-    , view{new QTableView}
+    // , studentModel{new StudentModel{{}}}
+    , studentView{new QTableView}
 {
     Student s;
     s.m_name = "Name";
@@ -22,18 +26,17 @@ QtFileCRUD::QtFileCRUD(QWidget* parent)
     s.m_chair = "Kb";
     s.m_isBudget = false;
 
-    // auto v{ new QTableView{} };
-    auto m{ new StudentModel{{s, s, s}} };
+    studentModel = new StudentModel{{s, s, s}};
 
-    view->setModel(m);
+    studentView->setModel(studentModel);
 
     auto d1{ new SpinBoxDelegate{} };
-    view->setItemDelegateForColumn(Student::Course, d1);
+    studentView->setItemDelegateForColumn(Student::Course, d1);
 
     auto d2{ new DateEditDelegate{} };
-    view->setItemDelegateForColumn(Student::Enroll, d2);
+    studentView->setItemDelegateForColumn(Student::Enroll, d2);
 
-    setCentralWidget(view);
+    setCentralWidget(studentView);
 
     createMenus();
 
@@ -88,8 +91,8 @@ QtFileCRUD::createMenus()
 
     menuBar()->addSeparator();
 
-    // connect(table, &QItemSelectionModel::selectionChanged,
-    //         this, &QtFileCRUD::updateActions);
+    connect(studentView->selectionModel(), &QItemSelectionModel::selectionChanged,
+            this, &QtFileCRUD::updateActions);
 }
 
 void
@@ -99,7 +102,7 @@ QtFileCRUD::openFile()
         QFileDialog::getOpenFileName(this,
                                      tr("Open file"),
                                      QDir::currentPath(),
-                                     tr("Student (*.json *.JSON"))
+                                     tr("Student (*.json *.JSON)"))
     };
 
     if (fileName.isEmpty())
@@ -107,7 +110,7 @@ QtFileCRUD::openFile()
         return;
     }
 
-    QFile studentsFile{fileName};
+    QFile studentsFile{ fileName };
 
     if (!studentsFile.open(QIODevice::ReadOnly | QIODevice::Text))
     {
@@ -117,12 +120,50 @@ QtFileCRUD::openFile()
 
         return;
     }
+
+    auto jsonDoc{ QJsonDocument::fromJson(studentsFile.readAll()) };
+    studentsFile.close();
+
+    if (!jsonDoc.isArray() || jsonDoc.array().size() <= 0)
+    {
+        QMessageBox::critical(this,
+                              tr("Incorrect format"),
+                              tr("File must contain valid non-empty JSON array"));
+
+        return;
+    }
+
+    qDebug() << "rows: " << studentModel->rowCount();
+
+    /* clear table (remove all rows from 0 to end) */
+    studentModel->removeRows(0,
+                             studentModel->rowCount());
+
+    /**
+     * for each entry in array
+     * construct Student & pass it to be inserted in the table
+     */
+    for (const auto& item : jsonDoc.array())
+    {
+        // fromFile.readJson(stud.toObject());
+         auto stud{ Student::fromJson(item.toObject()) };
+
+        qDebug() << item;
+        qDebug() << stud.m_enroll;
+
+        studentModel->insertRows(studentModel->rowCount(), 1);
+    }
 }
 
 void
 QtFileCRUD::saveFile()
 {
     QMessageBox::information(this, "Info", "Save file");
+}
+
+void
+QtFileCRUD::addStudentEntry(const Student&)
+{
 }
 
 void
