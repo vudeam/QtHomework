@@ -27,39 +27,42 @@ Student::writeJson(QJsonObject& json) const
     json["is_budget"] = m_isBudget;
 }
 
-void
-Student::readJson(const QJsonObject& json)
+Student
+Student::fromJson(const QJsonObject& json)
 {
+    Student result{};
     if (json.contains(QStringLiteral("name")))
     {
-        m_name = json["name"].toString(EMPTY_STR);
+        result.m_name = json["name"].toString(EMPTY_STR);
     }
     if (json.contains("surname"))
     {
-        m_surname = json["surname"].toString(EMPTY_STR);
+        result.m_surname = json["surname"].toString(EMPTY_STR);
     }
     if (json.contains("last_name"))
     {
-        m_lastName = json["last_name"].toString(EMPTY_STR);
+        result.m_lastName = json["last_name"].toString(EMPTY_STR);
     }
     if (json.contains("course"))
     {
-        m_course = json["course"].toDouble(0);
+        result.m_course = json["course"].toDouble(0);
     }
     if (json.contains("enroll"))
     {
-        m_enroll = QDate::fromString(json["enroll"].toString(), JSON_DATE_FORMAT);
+        result.m_enroll = QDate::fromString(json["enroll"].toString(), JSON_DATE_FORMAT);
     }
     if (json.contains("institute"))
     {
-        m_institute = json["institute"].toString(EMPTY_STR);
+        result.m_institute = json["institute"].toString(EMPTY_STR);
     }
     if (json.contains("chair"))
     {
-        m_chair = json["chair"].toString(EMPTY_STR);
+        result.m_chair = json["chair"].toString(EMPTY_STR);
     }
     if (json.contains("is_budget"))
     {
-        m_chair = json["is_budget"].toBool(false);
+        result.m_chair = json["is_budget"].toBool(false);
     }
+
+    return result;
 }

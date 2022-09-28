@@ -23,18 +23,17 @@ public:
     operator ==(const Student& other) const;
 
     /*!
-     * \brief writeJson
-     * \param json
+     * \brief Write all members to passed object
      */
     void
     writeJson(QJsonObject& json) const;
 
     /*!
-     * \brief readJson
-     * \param json
+     * \brief Construct Student object from passed object
+     * \param json object to take member values from
      */
-    void
-    readJson(const QJsonObject& json);
+    static Student
+    fromJson(const QJsonObject& json);
 
     static constexpr auto COURSE_MIN { 1 };
     static constexpr auto COURSE_MAX { 6 };
