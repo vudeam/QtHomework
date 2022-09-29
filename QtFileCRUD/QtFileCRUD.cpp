@@ -13,7 +13,6 @@
 
 QtFileCRUD::QtFileCRUD(QWidget* parent)
     : QMainWindow{parent}
-    // , studentModel{new StudentModel{{}}}
     , studentView{new QTableView}
 {
     Student s;
@@ -50,14 +49,14 @@ QtFileCRUD::createMenus()
     auto fileMenu{ menuBar()->addMenu(tr("&File")) };
 
     /* File -> Open... */
-    auto openAct{ new QAction{tr("&Open...")} };
+    openAct = new QAction{ tr("&Open..."), this };
     openAct->setShortcut(Qt::CTRL | Qt::Key_O);
     fileMenu->addAction(openAct);
     connect(openAct, &QAction::triggered,
             this, &QtFileCRUD::openFile);
 
     /* File -> Save As... */
-    auto saveAct{ new QAction{tr("&Save As...")} };
+    saveAct = new QAction{ tr("&Save As..."), this };
     saveAct->setShortcut(Qt::CTRL | Qt::Key_S);
     fileMenu->addAction(saveAct);
     connect(saveAct, &QAction::triggered,
@@ -66,7 +65,7 @@ QtFileCRUD::createMenus()
     fileMenu->addSeparator();
 
     /* File -> Quit */
-    auto quitAct{ new QAction{tr("&Quit")} };
+    quitAct = new QAction{ tr("&Quit"), this };
     quitAct->setShortcut(Qt::CTRL | Qt::Key_Q);
     fileMenu->addAction(quitAct);
     connect(quitAct, &QAction::triggered,
@@ -189,18 +188,18 @@ QtFileCRUD::addStudentEntry(const Student& stud)
 }
 
 void
-QtFileCRUD::updateActions(const QItemSelection& sel)
+QtFileCRUD::updateActions(const QModelIndex&,
+                          int,
+                          int) const
 {
-    auto indexes{ sel.indexes() };
-
-    if (indexes.isEmpty())
+    if (studentModel->rowCount() <= 0)
     {
-        addAct->setEnabled(false);
         removeAct->setEnabled(false);
+        saveAct->setEnabled(false);
     }
     else
     {
-        addAct->setEnabled(true);
-        addAct->setEnabled(true);
+        removeAct->setEnabled(true);
+        saveAct->setEnabled(true);
     }
 }

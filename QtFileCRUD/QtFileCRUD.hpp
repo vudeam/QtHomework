@@ -20,7 +20,9 @@ public:
 private slots:
 
     void
-    updateActions(const QItemSelection& selection);
+    updateActions(const QModelIndex& parent,
+                  int first,
+                  int last) const;
 
     /*!
      * \brief Read list of Students from JSON file.
@@ -45,7 +47,10 @@ private:
     addStudentEntry(const Student& stud);
 
     QAction* addAct;
+    QAction* openAct;
     QAction* removeAct;
+    QAction* saveAct;
+    QAction* quitAct;
 
     StudentModel* studentModel;
     QTableView* studentView;
