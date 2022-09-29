@@ -64,7 +64,7 @@ public:
                const QModelIndex& idx = QModelIndex{}) override;
 
     const Container&
-    getStudents() const;
+    students() const;
 
 private:
 

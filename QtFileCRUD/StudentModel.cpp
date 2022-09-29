@@ -235,7 +235,7 @@ StudentModel::removeRows(int pos,
 }
 
 const StudentModel::Container&
-StudentModel::getStudents() const
+StudentModel::students() const
 {
     return studentData;
 }
