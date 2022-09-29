@@ -28,6 +28,8 @@ QtFileCRUD::QtFileCRUD(QWidget* parent)
     studentModel = new StudentModel{{s, s, s}};
 
     studentView->setModel(studentModel);
+    // studentView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    // studentView->setSelectionMode(QAbstractItemView::ContiguousSelection);
 
     auto d1{ new SpinBoxDelegate{} };
     studentView->setItemDelegateForColumn(Student::Course, d1);
@@ -75,22 +77,35 @@ QtFileCRUD::createMenus()
     auto editMenu{ menuBar()->addMenu(tr("&Edit")) };
 
     /* Edit -> Add row */
-    addAct = new QAction{tr("&Add row")};
+    addAct = new QAction{ tr("&Add row"), this };
     addAct->setShortcut(Qt::CTRL | Qt::Key_N);
     editMenu->addAction(addAct);
-    connect(addAct, &QAction::triggered,
-            this, [this]() { QMessageBox::information(this, "Info", "Add"); });
+    connect(addAct,
+            &QAction::triggered,
+            this,
+            [this]() { studentModel->insertRows(studentModel->rowCount(), 1); });
 
     /* Edit -> Remove row(s) */
-    removeAct = new QAction{tr("&Remove row(s)")};
+    removeAct = new QAction{ tr("&Remove row(s)"), this };
     removeAct->setShortcut(Qt::Key_Delete);
     editMenu->addAction(removeAct);
-    connect(removeAct, &QAction::triggered,
-            this, [this](){ QMessageBox::information(this, "Info", "Remove"); });
+    connect(removeAct,
+            &QAction::triggered,
+            this,
+            [this]()
+            {
+                auto rows{ studentView->selectionModel()->selectedRows() };
+                if (!rows.empty())
+                {
+                    studentModel->removeRows(rows[0].row(), rows.size());
+                }
+            });
 
     menuBar()->addSeparator();
 
-    connect(studentView->selectionModel(), &QItemSelectionModel::selectionChanged,
+    connect(studentModel, &QAbstractTableModel::rowsRemoved,
+            this, &QtFileCRUD::updateActions);
+    connect(studentModel, &QAbstractTableModel::rowsInserted,
             this, &QtFileCRUD::updateActions);
 }
 
