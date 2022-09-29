@@ -151,7 +151,44 @@ QtFileCRUD::openFile()
 void
 QtFileCRUD::saveFile()
 {
-    QMessageBox::information(this, "Info", "Save file");
+    if (studentModel->rowCount() <= 0)
+    {
+        QMessageBox::information(this,
+                                 tr("Empty table"),
+                                 tr("Table must contain at least one entry"));
+
+        return;
+    }
+
+    auto fileName{
+        QFileDialog::getSaveFileName(this,
+                                     tr("Save to"),
+                                     QDir::currentPath(),
+                                     tr("Student (*.json *.JSON)"))
+    };
+
+    QJsonArray arr{};
+    for (const auto& stud : studentModel->students())
+    {
+        QJsonObject entry{};
+        stud.writeJson(entry);
+
+        arr.push_back(entry);
+    }
+
+    QFile studentsFile{ fileName };
+
+    if (!studentsFile.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        QMessageBox::information(this,
+                                 tr("Unable to open file"),
+                                 studentsFile.errorString());
+
+        return;
+    }
+
+    studentsFile.write(QJsonDocument{arr}.toJson(QJsonDocument::Indented));
+    studentsFile.close();
 }
 
 void
