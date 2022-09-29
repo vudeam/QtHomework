@@ -20,9 +20,7 @@ public:
 private slots:
 
     void
-    updateActions(const QModelIndex& parent,
-                  int first,
-                  int last) const;
+    updateActions() const;
 
     /*!
      * \brief Read list of Students from JSON file.

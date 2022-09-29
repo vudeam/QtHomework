@@ -8,24 +8,13 @@
 #include <QMenuBar>
 #include <QMessageBox>
 
-#include <QDebug>
-
 
 QtFileCRUD::QtFileCRUD(QWidget* parent)
     : QMainWindow{parent}
+    , studentModel{new StudentModel}
     , studentView{new QTableView}
 {
-    Student s;
-    s.m_name = "Name";
-    s.m_surname = "Surname";
-    s.m_lastName = "LastName";
-    s.m_course = 3;
-    s.m_enroll = QDate{2020, 2, 3};
-    s.m_institute = "IKB";
-    s.m_chair = "Kb";
-    s.m_isBudget = false;
-
-    studentModel = new StudentModel{{s, s, s}};
+    resize(850, 400);
 
     studentView->setModel(studentModel);
     // studentView->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -40,6 +29,7 @@ QtFileCRUD::QtFileCRUD(QWidget* parent)
     setCentralWidget(studentView);
 
     createMenus();
+    updateActions();
 
     setWindowTitle(QStringLiteral("QtFileCRUD"));
 }
@@ -147,9 +137,12 @@ QtFileCRUD::openFile()
         return;
     }
 
-    /* clear table (remove all rows from 0 to end) */
-    studentModel->removeRows(0,
-                             studentModel->rowCount());
+    if (studentModel->rowCount() > 0)
+    {
+        /* clear table (remove all rows from 0 to end) */
+        studentModel->removeRows(0,
+                                 studentModel->rowCount());
+    }
 
     /**
      * for each entry in array
@@ -240,10 +233,7 @@ QtFileCRUD::addStudentEntry(const Student& stud)
 }
 
 void
-QtFileCRUD::updateActions(const QModelIndex&,
-                          int,
-                          int) const
-{
+QtFileCRUD::updateActions() const {
     if (studentModel->rowCount() <= 0)
     {
         removeAct->setEnabled(false);
