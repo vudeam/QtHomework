@@ -1,19 +1,6 @@
 #include "Student.hpp"
 
 
-bool
-Student::operator ==(const Student& other) const
-{
-    return m_name       == other.m_name &&
-            m_surname   == other.m_surname &&
-            m_lastName  == other.m_lastName &&
-            m_course    == other.m_course &&
-            m_enroll    == other.m_enroll &&
-            m_institute == other.m_institute &&
-            m_chair     == other.m_chair &&
-            m_isBudget  == other.m_isBudget;
-}
-
 void
 Student::writeJson(QJsonObject& json) const
 {

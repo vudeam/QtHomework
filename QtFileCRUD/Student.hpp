@@ -15,14 +15,6 @@ public:
     Student() = default;
 
     /*!
-     * \brief Memberwise comparison
-     * \param other
-     * \return
-     */
-    bool
-    operator ==(const Student& other) const;
-
-    /*!
      * \brief Write all members to passed object
      */
     void
