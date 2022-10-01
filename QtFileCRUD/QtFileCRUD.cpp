@@ -17,8 +17,6 @@ QtFileCRUD::QtFileCRUD(QWidget* parent)
     resize(850, 400);
 
     studentView->setModel(studentModel);
-    // studentView->setSelectionBehavior(QAbstractItemView::SelectRows);
-    // studentView->setSelectionMode(QAbstractItemView::ContiguousSelection);
 
     auto d1{ new SpinBoxDelegate{} };
     studentView->setItemDelegateForColumn(Student::Course, d1);
@@ -27,6 +25,11 @@ QtFileCRUD::QtFileCRUD(QWidget* parent)
     studentView->setItemDelegateForColumn(Student::Enroll, d2);
 
     setCentralWidget(studentView);
+
+    connect(studentModel, &QAbstractTableModel::rowsRemoved,
+            this, &QtFileCRUD::updateActions);
+    connect(studentModel, &QAbstractTableModel::rowsInserted,
+            this, &QtFileCRUD::updateActions);
 
     createMenus();
     updateActions();
@@ -73,7 +76,10 @@ QtFileCRUD::createMenus()
     connect(addAct,
             &QAction::triggered,
             this,
-            [this]() { studentModel->insertRows(studentModel->rowCount(), 1); });
+            [this]()
+            {
+                studentModel->insertRows(studentModel->rowCount(), 1);
+            });
 
     /* Edit -> Remove row(s) */
     removeAct = new QAction{ tr("&Remove row(s)"), this };
@@ -92,11 +98,6 @@ QtFileCRUD::createMenus()
             });
 
     menuBar()->addSeparator();
-
-    connect(studentModel, &QAbstractTableModel::rowsRemoved,
-            this, &QtFileCRUD::updateActions);
-    connect(studentModel, &QAbstractTableModel::rowsInserted,
-            this, &QtFileCRUD::updateActions);
 }
 
 void
@@ -140,8 +141,7 @@ QtFileCRUD::openFile()
     if (studentModel->rowCount() > 0)
     {
         /* clear table (remove all rows from 0 to end) */
-        studentModel->removeRows(0,
-                                 studentModel->rowCount());
+        studentModel->removeRows(0, studentModel->rowCount());
     }
 
     /**
@@ -206,8 +206,7 @@ QtFileCRUD::addStudentEntry(const Student& stud)
 
     const auto insertRow{ studentModel->rowCount() };
 
-    studentModel->insertRows(insertRow,
-                             1);
+    studentModel->insertRows(insertRow, 1);
 
     /* set each column with corrensponding field */
     for (auto field{0}; field <= Student::IsBudget; field++)
@@ -227,8 +226,7 @@ QtFileCRUD::addStudentEntry(const Student& stud)
         case Field::IsBudget:  val = stud.m_isBudget; break;
         }
 
-        studentModel->setData(idx,
-                              val);
+        studentModel->setData(idx, val);
     }
 }
 

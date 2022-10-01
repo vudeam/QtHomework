@@ -3,7 +3,6 @@
 
 #include "StudentModel.hpp"
 
-#include <QItemSelection>
 #include <QMainWindow>
 #include <QTableView>
 

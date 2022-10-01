@@ -146,41 +146,15 @@ StudentModel::setData(const QModelIndex& idx,
 
         switch (idx.column())
         {
-        case Field::Name:
-            // studentData[idx.column()].m_name = val.toString();
-            stud.m_name = val.toString();
-            break;
-        case Field::Surname:
-            // studentData[idx.column()].m_surname = val.toString();
-            stud.m_surname = val.toString();
-            break;
-        case Field::LastName:
-            // studentData[idx.column()].m_lastName = val.toString();
-            stud.m_lastName = val.toString();
-            break;
-        case Field::Course:
-            // studentData[idx.column()].m_course = val.toInt();
-            stud.m_course = val.toInt();
-            break;
-        case Field::Enroll:
-            // studentData[idx.column()].m_enroll = QDate::fromString(val.toString(), JSON_DATE_FORMAT);
-            // stud.m_enroll = QDate::fromString(val.toString(), JSON_DATE_FORMAT);
-            stud.m_enroll = val.toDate();
-            break;
-        case Field::Institute:
-            // studentData[idx.column()].m_institute = val.toString();
-            stud.m_institute = val.toString();
-            break;
-        case Field::Chair:
-            // studentData[idx.column()].m_chair = val.toString();
-            stud.m_chair = val.toString();
-            break;
-        case Field::IsBudget:
-            // studentData[idx.column()].m_isBudget = val.toBool();
-            stud.m_isBudget = val.toBool();
-            break;
-        default:
-            return false;
+        case Field::Name:      stud.m_name = val.toString(); break;
+        case Field::Surname:   stud.m_surname = val.toString(); break;
+        case Field::LastName:  stud.m_lastName = val.toString(); break;
+        case Field::Course:    stud.m_course = val.toInt(); break;
+        case Field::Enroll:    stud.m_enroll = val.toDate(); break;
+        case Field::Institute: stud.m_institute = val.toString(); break;
+        case Field::Chair:     stud.m_chair = val.toString(); break;
+        case Field::IsBudget:  stud.m_isBudget = val.toBool(); break;
+        default: return false;
         }
 
         studentData.replace(idx.row(), stud);

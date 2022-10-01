@@ -41,7 +41,8 @@ DateEditDelegate::setModelData(QWidget* editor,
 
     auto editorEnrollValue{ dateEdit->date() };
 
-    model->setData(idx, editorEnrollValue); /* data is set using EditRole by default */
+    /* data is set using EditRole by default */
+    model->setData(idx, editorEnrollValue);
 }
 
 void
