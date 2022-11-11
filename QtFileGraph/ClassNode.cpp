@@ -1,10 +1,10 @@
 #include "ClassNode.hpp"
 #include "Edge.hpp"
 
+#include <QGraphicsScene>
+#include <QGraphicsSceneMouseEvent>
 #include <QPainter>
-#include <QRadialGradient>
-#include <QStyle>
-#include <QStyleOptionGraphicsItem>
+#include <QStyleOption>
 
 
 ClassNode::ClassNode(GraphWidget* graphWidget)
@@ -32,6 +32,90 @@ int
 ClassNode::type() const
 {
     return Type;
+}
+
+void
+ClassNode::calculateForces()
+{
+    if (!scene() || scene()->mouseGrabberItem() == this)
+    {
+        m_newPosition = pos();
+
+        return;
+    }
+
+    /* sum up all forces pushing this item away */
+    qreal xvel { 0 };
+    qreal yvel { 0 };
+
+    for (auto item : scene()->items())
+    {
+        auto node{ qgraphicsitem_cast<ClassNode*>(item) };
+
+        if (!node)
+        {
+            continue;
+        }
+
+        auto vec{ mapToItem(node, 0, 0) };
+        auto dx{ vec.x() };
+        auto dy{ vec.y() };
+
+        auto l { 2. * (dx * dx + dy * dy) };
+
+        if (l > 0)
+        {
+            xvel += (dx * 150.0) / l;
+            yvel += (dy * 150.0) / l;
+        }
+    }
+
+    /* Now subtract all forces pulling items together */
+    auto weight{ (m_edgeList.size() + 1) * 10 };
+
+    for (const auto edge : qAsConst(m_edgeList))
+    {
+        QPointF vec{};
+        if (edge->sourceNode() == this)
+        {
+            vec = mapToItem(edge->destinationNode(), 0, 0);
+        }
+        else
+        {
+            vec = mapToItem(edge->sourceNode(), 0, 0);
+        }
+
+        xvel -= vec.x() / weight;
+        yvel -= vec.y() / weight;
+    }
+
+    if (qAbs(xvel) < .1 && qAbs(yvel) < .1)
+    {
+        xvel = yvel = 0;
+    }
+
+    auto sceneRect{ scene()->sceneRect() };
+
+    m_newPosition = pos() + QPointF{ xvel, yvel };
+    m_newPosition.setX(qMin(
+                            qMax(m_newPosition.x(), sceneRect.left() + 10),
+                            sceneRect.right() - 10));
+    m_newPosition.setY(qMin(
+                            qMax(m_newPosition.y(), sceneRect.top() + 10),
+                            sceneRect.bottom() - 10));
+}
+
+bool
+ClassNode::advancePosition()
+{
+    if (m_newPosition == pos())
+    {
+        return false;
+    }
+
+    setPos(m_newPosition);
+
+    return true;
 }
 
 QRectF

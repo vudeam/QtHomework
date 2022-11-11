@@ -33,13 +33,11 @@ public:
     int
     type() const override;
 
-    /*
     void
     calculateForces();
 
     bool
     advancePosition();
-    */
 
     QRectF
     boundingRect() const override;
