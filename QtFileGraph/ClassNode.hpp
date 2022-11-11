@@ -2,6 +2,7 @@
 #define CLASSNODE_HPP
 
 #include <QGraphicsItem>
+#include <QVector>
 
 
 /* forward declaration */

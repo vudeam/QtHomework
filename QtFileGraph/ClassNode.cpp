@@ -1,4 +1,5 @@
 #include "ClassNode.hpp"
+#include "Edge.hpp"
 
 #include <QPainter>
 #include <QRadialGradient>
@@ -18,7 +19,7 @@ void
 ClassNode::addEdge(Edge* edge)
 {
     m_edgeList.append(edge);
-    // edge->adjust(); TODO: declare Edge class
+    edge->adjust();
 }
 
 ClassNode::EdgeContainer
@@ -95,7 +96,10 @@ ClassNode::itemChange(QGraphicsItem::GraphicsItemChange chg,
     {
     case GraphChange::ItemPositionHasChanged:
 
-        // for (auto edge : qAsConst(m_edgeList)) edge->adjust(); TODO: declare Edge class
+        for (auto edge : qAsConst(m_edgeList))
+        {
+            edge->adjust();
+        }
 
         // m_graph->itemMoved(); TODO
         break;
