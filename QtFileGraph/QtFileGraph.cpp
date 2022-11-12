@@ -14,7 +14,7 @@ QtFileGraph::QtFileGraph(QWidget* parent)
 {
     auto scene = new QGraphicsScene(this);
     scene->setItemIndexMethod(QGraphicsScene::NoIndex);
-    scene->setSceneRect(-400, -400, 800, 800);
+    scene->setSceneRect(-640, -360, 1280, 720);
     setScene(scene);
     setCacheMode(CacheBackground);
     setViewportUpdateMode(BoundingRectViewportUpdate);
@@ -34,8 +34,18 @@ QtFileGraph::QtFileGraph(QWidget* parent)
          node6 = new ClassNode{this},
          node7 = new ClassNode{this},
          node8 = new ClassNode{this},
-         node9 = new ClassNode{this};
+         node9 = new ClassNode{this},
+            node1_ = new ClassNode{this},
+            node2_ = new ClassNode{this},
+            node3_ = new ClassNode{this},
+            node4_ = new ClassNode{this},
+            node5_ = new ClassNode{this},
+            node6_ = new ClassNode{this},
+            node7_ = new ClassNode{this},
+            node8_ = new ClassNode{this},
+            node9_ = new ClassNode{this};
 
+    scene->addItem(m_centerNode);
     scene->addItem(node1);
     scene->addItem(node2);
     scene->addItem(node3);
@@ -45,7 +55,16 @@ QtFileGraph::QtFileGraph(QWidget* parent)
     scene->addItem(node7);
     scene->addItem(node8);
     scene->addItem(node9);
-    scene->addItem(m_centerNode);
+    scene->addItem(node1_);
+    scene->addItem(node2_);
+    scene->addItem(node3_);
+    scene->addItem(node4_);
+    scene->addItem(node5_);
+    scene->addItem(node6_);
+    scene->addItem(node7_);
+    scene->addItem(node8_);
+    scene->addItem(node9_);
+
     scene->addItem(new Edge{ node1, node2 });
     scene->addItem(new Edge{ node2, node3 });
     scene->addItem(new Edge{ node3, node4 });
@@ -55,6 +74,16 @@ QtFileGraph::QtFileGraph(QWidget* parent)
     scene->addItem(new Edge{ node7, node8 });
     scene->addItem(new Edge{ node8, node9 });
     scene->addItem(new Edge{ node9, node1 });
+
+    scene->addItem(new Edge{ node1, node1_ });
+    scene->addItem(new Edge{ node2, node2_ });
+    scene->addItem(new Edge{ node3, node3_ });
+    scene->addItem(new Edge{ node4, node4_ });
+    scene->addItem(new Edge{ node5, node5_ });
+    scene->addItem(new Edge{ node6, node6_ });
+    scene->addItem(new Edge{ node7, node7_ });
+    scene->addItem(new Edge{ node8, node8_ });
+    scene->addItem(new Edge{ node9, node9_ });
     // scene->addItem(new Edge{ node8, m_centerNode });
     // scene->addItem(new Edge{m_centerNode, node1});
 
