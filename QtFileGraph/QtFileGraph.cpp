@@ -14,7 +14,7 @@ QtFileGraph::QtFileGraph(QWidget* parent)
 {
     auto scene = new QGraphicsScene(this);
     scene->setItemIndexMethod(QGraphicsScene::NoIndex);
-    scene->setSceneRect(-200, -200, 400, 400);
+    scene->setSceneRect(-400, -400, 800, 800);
     setScene(scene);
     setCacheMode(CacheBackground);
     setViewportUpdateMode(BoundingRectViewportUpdate);
@@ -27,13 +27,46 @@ QtFileGraph::QtFileGraph(QWidget* parent)
     m_centerNode = new ClassNode{this};
 
     auto node1 = new ClassNode{this},
-         node2 = new ClassNode{this};
+         node2 = new ClassNode{this},
+         node3 = new ClassNode{this},
+         node4 = new ClassNode{this},
+         node5 = new ClassNode{this},
+         node6 = new ClassNode{this},
+         node7 = new ClassNode{this},
+         node8 = new ClassNode{this},
+         node9 = new ClassNode{this};
 
     scene->addItem(node1);
     scene->addItem(node2);
+    scene->addItem(node3);
+    scene->addItem(node4);
+    scene->addItem(node5);
+    scene->addItem(node6);
+    scene->addItem(node7);
+    scene->addItem(node8);
+    scene->addItem(node9);
     scene->addItem(m_centerNode);
     scene->addItem(new Edge{ node1, node2 });
-    scene->addItem(new Edge{m_centerNode, node1});
+    scene->addItem(new Edge{ node2, node3 });
+    scene->addItem(new Edge{ node3, node4 });
+    scene->addItem(new Edge{ node4, node5 });
+    scene->addItem(new Edge{ node5, node6 });
+    scene->addItem(new Edge{ node6, node7 });
+    scene->addItem(new Edge{ node7, node8 });
+    scene->addItem(new Edge{ node8, node9 });
+    scene->addItem(new Edge{ node9, node1 });
+    // scene->addItem(new Edge{ node8, m_centerNode });
+    // scene->addItem(new Edge{m_centerNode, node1});
+
+    scene->addItem(new Edge{ m_centerNode, node1 });
+    scene->addItem(new Edge{ m_centerNode, node2 });
+    scene->addItem(new Edge{ m_centerNode, node3 });
+    scene->addItem(new Edge{ m_centerNode, node4 });
+    scene->addItem(new Edge{ m_centerNode, node5 });
+    scene->addItem(new Edge{ m_centerNode, node6 });
+    scene->addItem(new Edge{ m_centerNode, node7 });
+    scene->addItem(new Edge{ m_centerNode, node8 });
+    scene->addItem(new Edge{ m_centerNode, node9 });
 
     node1->setPos(-50, 50);
     node2->setPos(0, -50);
@@ -45,7 +78,7 @@ QtFileGraph::itemMoved()
 {
     if (!m_timerId)
     {
-        m_timerId = startTimer(1000 / 25);
+        m_timerId = startTimer(1000 / 250);
     }
 }
 
