@@ -10,6 +10,7 @@
 
 QtFileGraph::QtFileGraph(QWidget* parent)
     : QGraphicsView{parent}
+    , m_timerId{0}
 {
     auto scene = new QGraphicsScene(this);
     scene->setItemIndexMethod(QGraphicsScene::NoIndex);
@@ -19,17 +20,18 @@ QtFileGraph::QtFileGraph(QWidget* parent)
     setViewportUpdateMode(BoundingRectViewportUpdate);
     setRenderHint(QPainter::Antialiasing);
     setTransformationAnchor(AnchorUnderMouse);
-    scale(qreal{0.8}, qreal{0.8});
+    scale(qreal{.8}, qreal{.8});
     setMinimumSize(400, 400);
     setWindowTitle(tr("Header Graph"));
 
-    m_centerNode = new ClassNode(this);
+    m_centerNode = new ClassNode{this};
 
     auto node1 = new ClassNode{this},
          node2 = new ClassNode{this};
 
     scene->addItem(node1);
     scene->addItem(node2);
+    scene->addItem(m_centerNode);
     scene->addItem(new Edge{ node1, node2 });
     scene->addItem(new Edge{m_centerNode, node1});
 
@@ -50,7 +52,8 @@ QtFileGraph::itemMoved()
 void
 QtFileGraph::keyPressEvent(QKeyEvent* event)
 {
-    switch (event->key()) {
+    switch (event->key())
+    {
     case Qt::Key_Up:
         m_centerNode->moveBy(0, -20);
         break;
@@ -83,6 +86,7 @@ QtFileGraph::keyPressEvent(QKeyEvent* event)
 void
 QtFileGraph::timerEvent(QTimerEvent*)
 {
+    /*
     QVector<ClassNode*> nodes{};
 
     for (auto item : scene()->items())
@@ -104,7 +108,6 @@ QtFileGraph::timerEvent(QTimerEvent*)
         if (node->advancePosition())
         {
             itemsMoved = true;
-            break; /* ? */
         }
     }
 
@@ -113,6 +116,60 @@ QtFileGraph::timerEvent(QTimerEvent*)
         killTimer(m_timerId);
         m_timerId = 0;
     }
+    */
+    QList<ClassNode*> nodes{};
+
+    for (auto item : scene()->items())
+    {
+        if (auto node = qgraphicsitem_cast<ClassNode*>(item))
+        {
+            // nodes << node;
+            nodes.append(node);
+        }
+    }
+
+    for (auto n : qAsConst(nodes))
+    {
+        n->calculateForces();
+    }
+
+    auto itemsMoved{ false };
+    for (auto n : nodes)
+    {
+        if (n->advancePosition())
+        {
+            itemsMoved = true;
+        }
+    }
+
+    if (!itemsMoved)
+    {
+        killTimer(m_timerId);
+        m_timerId = 0;
+    }
+
+
+    /*
+    QList<ClassNode *> nodes;
+        foreach (QGraphicsItem *item, scene()->items()) {
+            if (ClassNode *node = qgraphicsitem_cast<ClassNode *>(item))
+                nodes << node;
+        }
+
+        foreach (ClassNode *node, nodes)
+            node->calculateForces();
+
+        bool itemsMoved = false;
+        foreach (ClassNode *node, nodes) {
+            if (node->advancePosition())
+                itemsMoved = true;
+        }
+
+        if (!itemsMoved) {
+            killTimer(m_timerId);
+            m_timerId = 0;
+        }
+        */
 
 }
 

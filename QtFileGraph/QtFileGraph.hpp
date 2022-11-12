@@ -50,7 +50,7 @@ protected:
 
 private:
 
-    int m_timerId{ 0 };
+    int m_timerId;
     ClassNode* m_centerNode;
 };
 #endif /* QTFILEGRAPH_HPP */

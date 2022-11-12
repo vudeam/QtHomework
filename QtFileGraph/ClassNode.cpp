@@ -1,5 +1,6 @@
 #include "ClassNode.hpp"
 #include "Edge.hpp"
+#include "QtFileGraph.hpp"
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
@@ -61,7 +62,7 @@ ClassNode::calculateForces()
         auto dx{ vec.x() };
         auto dy{ vec.y() };
 
-        auto l { 2. * (dx * dx + dy * dy) };
+        auto l{ 2. * (dx * dx + dy * dy) };
 
         if (l > 0)
         {
@@ -138,6 +139,7 @@ ClassNode::shape() const
 {
     QPainterPath path{};
     path.addRect(-10, -10, 20, 20);
+    // path.addEllipse(-10, -10, 20, 20);
 
     return path;
 }
@@ -185,7 +187,7 @@ ClassNode::itemChange(QGraphicsItem::GraphicsItemChange chg,
             edge->adjust();
         }
 
-        // m_graph->itemMoved(); TODO
+        m_graph->itemMoved();
         break;
 
     default: break;
