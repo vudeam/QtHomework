@@ -7,7 +7,7 @@
 #include <QStyleOption>
 
 
-ClassNode::ClassNode(GraphWidget* graphWidget)
+ClassNode::ClassNode(QtFileGraph* graphWidget)
     : m_graph{graphWidget}
 {
     setFlags(ItemIsMovable | ItemSendsGeometryChanges);

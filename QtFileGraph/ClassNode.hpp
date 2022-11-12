@@ -7,7 +7,7 @@
 
 /* forward declaration */
 class Edge;
-class GraphWidget;
+class QtFileGraph;
 /***********************/
 
 class ClassNode
@@ -17,7 +17,7 @@ public:
 
     using EdgeContainer = QVector<Edge*>;
 
-    ClassNode(GraphWidget* widget);
+    ClassNode(QtFileGraph* widget);
 
     void
     addEdge(Edge* edge);
@@ -66,7 +66,7 @@ private:
 
     EdgeContainer m_edgeList;
     QPointF m_newPosition;
-    GraphWidget* m_graph;
+    QtFileGraph* m_graph;
 };
 
 #endif /* CLASSNODE_HPP */
