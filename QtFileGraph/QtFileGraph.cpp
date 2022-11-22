@@ -14,14 +14,14 @@ QtFileGraph::QtFileGraph(QWidget* parent)
 {
     auto scene = new QGraphicsScene(this);
     scene->setItemIndexMethod(QGraphicsScene::NoIndex);
-    scene->setSceneRect(-400, -400, 800, 800);
+    scene->setSceneRect(-640, -480, 1280, 720);
     setScene(scene);
     setCacheMode(CacheBackground);
     setViewportUpdateMode(BoundingRectViewportUpdate);
     setRenderHint(QPainter::Antialiasing);
     setTransformationAnchor(AnchorUnderMouse);
-    scale(qreal{.8}, qreal{.8});
-    setMinimumSize(400, 400);
+    // scale(qreal{.8}, qreal{.8});
+    setMinimumSize(1300, 730);
     setWindowTitle(tr("Header Graph"));
 
     m_centerNode = new ClassNode{this};
