@@ -26,80 +26,14 @@ QtFileGraph::QtFileGraph(QWidget* parent)
 
     m_centerNode = new ClassNode{this};
 
-    auto node1 = new ClassNode{this},
-         node2 = new ClassNode{this},
-         node3 = new ClassNode{this},
-         node4 = new ClassNode{this},
-         node5 = new ClassNode{this},
-         node6 = new ClassNode{this},
-         node7 = new ClassNode{this},
-         node8 = new ClassNode{this},
-         node9 = new ClassNode{this},
-            node1_ = new ClassNode{this},
-            node2_ = new ClassNode{this},
-            node3_ = new ClassNode{this},
-            node4_ = new ClassNode{this},
-            node5_ = new ClassNode{this},
-            node6_ = new ClassNode{this},
-            node7_ = new ClassNode{this},
-            node8_ = new ClassNode{this},
-            node9_ = new ClassNode{this};
+    auto node1 = new ClassNode{ this };
 
     scene->addItem(m_centerNode);
     scene->addItem(node1);
-    scene->addItem(node2);
-    scene->addItem(node3);
-    scene->addItem(node4);
-    scene->addItem(node5);
-    scene->addItem(node6);
-    scene->addItem(node7);
-    scene->addItem(node8);
-    scene->addItem(node9);
-    scene->addItem(node1_);
-    scene->addItem(node2_);
-    scene->addItem(node3_);
-    scene->addItem(node4_);
-    scene->addItem(node5_);
-    scene->addItem(node6_);
-    scene->addItem(node7_);
-    scene->addItem(node8_);
-    scene->addItem(node9_);
-
-    scene->addItem(new Edge{ node1, node2 });
-    scene->addItem(new Edge{ node2, node3 });
-    scene->addItem(new Edge{ node3, node4 });
-    scene->addItem(new Edge{ node4, node5 });
-    scene->addItem(new Edge{ node5, node6 });
-    scene->addItem(new Edge{ node6, node7 });
-    scene->addItem(new Edge{ node7, node8 });
-    scene->addItem(new Edge{ node8, node9 });
-    scene->addItem(new Edge{ node9, node1 });
-
-    scene->addItem(new Edge{ node1_, m_centerNode });
-    scene->addItem(new Edge{ node2_, m_centerNode });
-    scene->addItem(new Edge{ node3_, m_centerNode });
-    scene->addItem(new Edge{ node4_, m_centerNode });
-    scene->addItem(new Edge{ node5_, m_centerNode });
-    scene->addItem(new Edge{ node6_, m_centerNode });
-    scene->addItem(new Edge{ node7_, m_centerNode });
-    scene->addItem(new Edge{ node8_, m_centerNode });
-    scene->addItem(new Edge{ node9_, m_centerNode });
-    // scene->addItem(new Edge{ node8, m_centerNode });
-    // scene->addItem(new Edge{m_centerNode, node1});
-
     scene->addItem(new Edge{ m_centerNode, node1 });
-    scene->addItem(new Edge{ m_centerNode, node2 });
-    scene->addItem(new Edge{ m_centerNode, node3 });
-    scene->addItem(new Edge{ m_centerNode, node4 });
-    scene->addItem(new Edge{ m_centerNode, node5 });
-    scene->addItem(new Edge{ m_centerNode, node6 });
-    scene->addItem(new Edge{ m_centerNode, node7 });
-    scene->addItem(new Edge{ m_centerNode, node8 });
-    scene->addItem(new Edge{ m_centerNode, node9 });
 
-    node1->setPos(-50, 50);
-    node2->setPos(0, -50);
     m_centerNode->setPos(0, 0);
+    node1->setPos(0, 50);
 }
 
 void

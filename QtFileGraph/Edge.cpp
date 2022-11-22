@@ -115,12 +115,6 @@ Edge::paint(QPainter* painter,
     /* draw arrows */
     auto angle{ std::atan2(-line.dy(), line.dx()) };
 
-    auto sourceArrowP1{ m_sourcePoint + QPointF{sin(angle + M_PI / 3) * arrowSize,
-                                                cos(angle + M_PI / 3) * arrowSize}};
-
-    auto sourceArrowP2{ m_sourcePoint + QPointF{sin(angle + M_PI - M_PI / 3) * arrowSize,
-                                                cos(angle + M_PI - M_PI / 3) * arrowSize}};
-
     auto destArrowP1{ m_destinationPoint + QPointF{sin(angle - M_PI / 3) * arrowSize,
                                                    cos(angle - M_PI / 3) * arrowSize}};
 
@@ -128,6 +122,5 @@ Edge::paint(QPainter* painter,
                                                    cos(angle - M_PI + M_PI / 3) * arrowSize}};
 
     painter->setBrush(Qt::black);
-    painter->drawPolygon(QPolygonF{} << line.p1() << sourceArrowP1 << sourceArrowP2);
     painter->drawPolygon(QPolygonF{} << line.p2() << destArrowP1 << destArrowP2);
 }
