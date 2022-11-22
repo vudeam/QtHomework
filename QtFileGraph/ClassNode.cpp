@@ -146,13 +146,14 @@ ClassNode::shape() const
 
 void
 ClassNode::paint(QPainter* painter,
-                 const QStyleOptionGraphicsItem* opt,
+                 const QStyleOptionGraphicsItem*,
                  QWidget*)
 {
     painter->setPen(Qt::NoPen);
     painter->setBrush(Qt::darkGray); // TODO: change colors?
     painter->drawRect(-7, -7, 20, 20);
 
+    /*
     QRadialGradient grad{ -3, -3, 10 };
     if (QStyle::State_Sunken & opt->state)
     {
@@ -168,6 +169,9 @@ ClassNode::paint(QPainter* painter,
     }
 
     painter->setBrush(grad);
+    */
+
+    painter->setBrush(Qt::darkCyan);
 
     painter->setPen(QPen{Qt::black, 0});
     painter->drawRect(-10, -10, 20, 20);
