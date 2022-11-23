@@ -28,6 +28,9 @@ public slots:
     void
     zoomOut();
 
+    void
+    openFile();
+
 protected:
 
     void

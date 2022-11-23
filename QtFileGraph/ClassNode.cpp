@@ -48,8 +48,8 @@ ClassNode::calculateForces()
     }
 
     /* sum up all forces pushing this item away */
-    qreal xvel { 0 };
-    qreal yvel { 0 };
+    qreal xvel{ 0 };
+    qreal yvel{ 0 };
 
     for (auto item : scene()->items())
     {
@@ -182,7 +182,7 @@ ClassNode::paint(QPainter* painter,
     font.setPointSize(4);
 
     painter->setFont(font);
-    painter->setPen(Qt::lightGray);
+    painter->setPen(Qt::black);
     painter->drawText(QRectF{-20, -10, 40, 20}, m_cname);
 }
 

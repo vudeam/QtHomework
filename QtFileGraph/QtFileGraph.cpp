@@ -4,9 +4,21 @@
 
 #include <math.h>
 
+#include <QFileDialog>
+#include <QHash>
 #include <QKeyEvent>
+#include <QMessageBox>
 #include <QRandomGenerator>
+#include <QRegularExpression>
+#include <QTextStream>
 
+#include <QDebug> // DELETE
+
+
+static const QString classPattern
+{
+    R"RE(\b(class|struct)\s+(?<cname>[A-Za-z_]\w*)\s*:?(?<inhspec>\s*(public|private|protected)?\s+([A-Za-z_]+\w*)(,\s*(public\s|private\s|protected\s)?\s*([A-Za-z_]+\w*))*)?\s*{(?Us:.*)}\s*;)RE"
+};
 
 QtFileGraph::QtFileGraph(QWidget* parent)
     : QGraphicsView{parent}
@@ -209,7 +221,7 @@ QtFileGraph::drawBackground(QPainter* painter,
         painter->fillRect(bottomShadow, Qt::darkGray);
     }
 
-    // Fill
+    /* fill */
     QLinearGradient gradient{sceneRect.topLeft(), sceneRect.bottomRight()};
     gradient.setColorAt(0, Qt::white);
     gradient.setColorAt(1, Qt::lightGray);
@@ -258,4 +270,64 @@ void
 QtFileGraph::zoomOut()
 {
     scaleView(1 / qreal(1.2));
+}
+
+void
+QtFileGraph::openFile()
+{
+    auto fileName
+    {
+        QFileDialog::getOpenFileName(this,
+                                     tr("Open Header"),
+                                     QDir::currentPath(),
+                                     "Header (*.h *.H *.hh *.HH *.hpp *.HPP *.hxx *.HXX *.h++ *.H++)")
+    };
+
+    if (fileName.isEmpty())
+    {
+        QMessageBox::critical(this,
+                              tr("Error"),
+                              tr("No file selected"));
+
+        return;
+    }
+
+    QRegularExpression rx
+    {
+        classPattern,
+        QRegularExpression::MultilineOption
+    };
+
+    QFile inFile{ fileName };
+    if (!inFile.open(QFile::ReadOnly | QFile::Text))
+    {
+        QMessageBox::critical(this,
+                              tr("Error"),
+                              tr("Cannot read file"));
+
+        return;
+    }
+
+    QTextStream inStream{ &inFile };
+    const auto contents{ inStream.readAll() };
+    inFile.close();
+
+    /* reset scene */
+    scene()->clear();
+
+    QFileInfo info{ fileName };
+    m_centerNode = new ClassNode{ this, info.fileName() };
+    scene()->addItem(m_centerNode);
+
+    QHash<QString, ClassNode*> matches{};
+    for (auto it{ rx.globalMatch(contents) }; it.hasNext();)
+    {
+        auto match{ it.next() };
+        qDebug() << match.captured("inhspec");
+
+        auto node{ new ClassNode{this, match.captured("cname")} };
+
+        matches.insert(match.captured("cname"), node);
+        scene()->addItem(node);
+    }
 }

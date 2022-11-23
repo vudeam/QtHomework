@@ -1,6 +1,5 @@
 #include "MainWindow.hpp"
 
-#include <QFileDialog>
 #include <QMenuBar>
 #include <QMessageBox>
 
@@ -26,13 +25,8 @@ MainWindow::createMenus()
     m_openAct = new QAction{ tr("&Open..."), this };
     m_openAct->setShortcut(Qt::CTRL | Qt::Key_O);
     fileMenu->addAction(m_openAct);
-    connect(m_openAct,
-            &QAction::triggered,
-            this,
-            [this]()
-            {
-                QMessageBox::information(this, "Trig", "Open");
-            });
+    connect(m_openAct, &QAction::triggered,
+            m_graph, &QtFileGraph::openFile);
 
     fileMenu->addSeparator();
 
