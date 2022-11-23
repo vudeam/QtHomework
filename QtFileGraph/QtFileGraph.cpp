@@ -28,8 +28,8 @@ QtFileGraph::QtFileGraph(QWidget* parent)
 
     auto node1 = new ClassNode{ this };
 
-    m_centerNode->setCname("Parent");
-    node1->setCname("Child");
+    m_centerNode->setCname("Parent" "\n0123456789");
+    node1->setCname("Child" "\n0123456789");
 
     scene->addItem(m_centerNode);
     scene->addItem(node1);

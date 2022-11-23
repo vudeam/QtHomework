@@ -74,7 +74,7 @@ ClassNode::calculateForces()
     }
 
     /* Now subtract all forces pulling items together */
-    auto weight{ (m_edgeList.size() + 1) * 10 };
+    auto weight{ (m_edgeList.size() + 1) * 20 };
 
     for (const auto edge : qAsConst(m_edgeList))
     {
@@ -129,9 +129,9 @@ ClassNode::boundingRect() const
     /* mAgIc */
     return QRectF
     {
+        -20 - adj,
         -10 - adj,
-        -10 - adj,
-        23 + adj,
+        46 + adj,
         23 + adj
     };
 }
@@ -140,7 +140,7 @@ QPainterPath
 ClassNode::shape() const
 {
     QPainterPath path{};
-    path.addRect(-10, -10, 20, 20);
+    path.addRect(-20, -10, 40, 20);
     // path.addEllipse(-10, -10, 20, 20);
 
     return path;
@@ -151,9 +151,10 @@ ClassNode::paint(QPainter* painter,
                  const QStyleOptionGraphicsItem*,
                  QWidget*)
 {
+    /* shadow */
     painter->setPen(Qt::NoPen);
     painter->setBrush(Qt::darkGray); // TODO: change colors?
-    painter->drawRect(-7, -7, 20, 20);
+    painter->drawRect(-18, -7, 40, 20);
 
     /*
     QRadialGradient grad{ -3, -3, 10 };
@@ -174,16 +175,15 @@ ClassNode::paint(QPainter* painter,
     */
 
     painter->setBrush(Qt::darkCyan);
-
     painter->setPen(QPen{Qt::black, 0});
-    painter->drawRect(-10, -10, 20, 20);
+    painter->drawRect(-20, -10, 40, 20);
 
     auto font{ painter->font() };
-    font.setPointSize(8);
+    font.setPointSize(4);
 
     painter->setFont(font);
     painter->setPen(Qt::lightGray);
-    painter->drawText(QRectF{-10, -10, 20, 20}, m_cname);
+    painter->drawText(QRectF{-20, -10, 40, 20}, m_cname);
 }
 
 void
