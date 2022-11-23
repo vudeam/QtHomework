@@ -11,12 +11,14 @@ CONFIG += c++17
 SOURCES += \
     ClassNode.cpp \
     Edge.cpp \
+    MainWindow.cpp \
     main.cpp \
     QtFileGraph.cpp
 
 HEADERS += \
     ClassNode.hpp \
     Edge.hpp \
+    MainWindow.hpp \
     QtFileGraph.hpp
 
 # Default rules for deployment.

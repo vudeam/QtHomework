@@ -22,7 +22,6 @@ QtFileGraph::QtFileGraph(QWidget* parent)
     setTransformationAnchor(AnchorUnderMouse);
     // scale(qreal{.8}, qreal{.8});
     setMinimumSize(1300, 730);
-    setWindowTitle(tr("Header Graph"));
 
     m_centerNode = new ClassNode{ this };
 
