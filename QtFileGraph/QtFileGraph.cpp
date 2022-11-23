@@ -24,9 +24,12 @@ QtFileGraph::QtFileGraph(QWidget* parent)
     setMinimumSize(1300, 730);
     setWindowTitle(tr("Header Graph"));
 
-    m_centerNode = new ClassNode{this};
+    m_centerNode = new ClassNode{ this };
 
     auto node1 = new ClassNode{ this };
+
+    m_centerNode->setCname("Parent");
+    node1->setCname("Child");
 
     scene->addItem(m_centerNode);
     scene->addItem(node1);

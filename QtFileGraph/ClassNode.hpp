@@ -17,7 +17,7 @@ public:
 
     using EdgeContainer = QVector<Edge*>;
 
-    ClassNode(QtFileGraph* widget);
+    ClassNode(QtFileGraph* widget, const QString& cname = QString{});
 
     void
     addEdge(Edge* edge);
@@ -50,6 +50,9 @@ public:
           const QStyleOptionGraphicsItem* option,
           QWidget* widget) override;
 
+    void
+    setCname(const QString& cname);
+
 protected:
 
     QVariant
@@ -67,6 +70,7 @@ private:
     EdgeContainer m_edgeList;
     QPointF m_newPosition;
     QtFileGraph* m_graph;
+    QString m_cname;
 };
 
 #endif /* CLASSNODE_HPP */

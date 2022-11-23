@@ -8,8 +8,10 @@
 #include <QStyleOption>
 
 
-ClassNode::ClassNode(QtFileGraph* graphWidget)
+ClassNode::ClassNode(QtFileGraph* graphWidget,
+                     const QString& cname)
     : m_graph{graphWidget}
+    , m_cname{cname}
 {
     setFlags(ItemIsMovable | ItemSendsGeometryChanges);
     setCacheMode(DeviceCoordinateCache);
@@ -175,6 +177,19 @@ ClassNode::paint(QPainter* painter,
 
     painter->setPen(QPen{Qt::black, 0});
     painter->drawRect(-10, -10, 20, 20);
+
+    auto font{ painter->font() };
+    font.setPointSize(8);
+
+    painter->setFont(font);
+    painter->setPen(Qt::lightGray);
+    painter->drawText(QRectF{-10, -10, 20, 20}, m_cname);
+}
+
+void
+ClassNode::setCname(const QString& cname)
+{
+    m_cname = cname;
 }
 
 QVariant
