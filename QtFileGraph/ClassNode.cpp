@@ -92,7 +92,7 @@ ClassNode::calculateForces()
         yvel -= vec.y() / weight;
     }
 
-    if (qAbs(xvel) < .1 && qAbs(yvel) < .1)
+    if (qAbs(xvel) < 1 && qAbs(yvel) < 1)
     {
         xvel = yvel = 0;
     }

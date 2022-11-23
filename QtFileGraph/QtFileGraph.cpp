@@ -26,13 +26,17 @@ QtFileGraph::QtFileGraph(QWidget* parent)
     m_centerNode = new ClassNode{ this };
 
     auto node1 = new ClassNode{ this };
+    auto node2 = new ClassNode{ this };
 
     m_centerNode->setCname("Parent" "\n0123456789");
-    node1->setCname("Child" "\n0123456789");
+    node1->setCname("Child1" "\n0123456789");
+    node2->setCname("Child2" "\n0123456789");
 
     scene->addItem(m_centerNode);
     scene->addItem(node1);
+    scene->addItem(node2);
     scene->addItem(new Edge{ m_centerNode, node1 });
+    scene->addItem(new Edge{ m_centerNode, node2 });
 
     m_centerNode->setPos(0, 0);
     node1->setPos(0, 50);
