@@ -16,12 +16,15 @@ public:
 
     explicit MainWindow(QWidget* parent = nullptr);
 
+    ~MainWindow();
+
 private:
 
     void
     createMenus();
 
     QtFileGraph* m_graph;
+    QAction* m_clearAct;
     QAction* m_openAct;
     QAction* m_quitAct;
 };

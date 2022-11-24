@@ -15,6 +15,14 @@ MainWindow::MainWindow(QWidget* parent)
     setWindowTitle(QStringLiteral("HPP Graph"));
 }
 
+MainWindow::~MainWindow()
+{
+    delete m_graph;
+    delete m_clearAct;
+    delete m_openAct;
+    delete m_quitAct;
+}
+
 void
 MainWindow::createMenus()
 {
@@ -36,4 +44,14 @@ MainWindow::createMenus()
     fileMenu->addAction(m_quitAct);
     connect(m_quitAct, &QAction::triggered,
             this, &MainWindow::close);
+
+    /* Edit */
+    auto editMenu{ menuBar()->addMenu(tr("&Edit")) };
+
+    /* Edit -> Clear scene */
+    m_clearAct = new QAction{ tr("&Clear scene"), this };
+    m_clearAct->setShortcut(Qt::CTRL | Qt::Key_R);
+    editMenu->addAction(m_clearAct);
+    connect(m_clearAct, &QAction::triggered,
+            m_graph->scene(), &QGraphicsScene::clear);
 }
