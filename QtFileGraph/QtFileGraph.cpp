@@ -352,7 +352,7 @@ QtFileGraph::openFile()
         /* test 1) */
         if (matches[k].second.size() <= 0)
         {
-            qDebug() << "Found top-level: " << k;
+            qDebug() << "Found top-level (1): " << k;
             scene()->addItem(new Edge{m_centerNode, matches[k].first});
         }
 
@@ -361,8 +361,13 @@ QtFileGraph::openFile()
         {
             if (!matches.contains(parent))
             {
-                qDebug() << "Found top-level: " << k;
+                qDebug() << "Found top-level (2): " << parent;
+                // scene()->addItem(new ClassNode{this, parent}); /* previously did not exist */
                 scene()->addItem(new Edge{m_centerNode, matches[k].first});
+            }
+            else
+            {
+                scene()->addItem(new Edge{matches[parent].first, matches[k].first});
             }
         }
     }
