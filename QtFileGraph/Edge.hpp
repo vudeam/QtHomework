@@ -44,7 +44,7 @@ protected:
 
 private:
 
-    static constexpr qreal arrowSize{ 10 };
+    static constexpr qreal arrowSize{ 5 };
 
     ClassNode* m_sourceNode;
     ClassNode* m_destinationNode;

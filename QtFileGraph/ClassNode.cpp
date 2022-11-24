@@ -183,7 +183,7 @@ ClassNode::paint(QPainter* painter,
 
     painter->setFont(font);
     painter->setPen(Qt::black);
-    painter->drawText(QRectF{-20, -10, 40, 20}, m_cname);
+    painter->drawText(QRectF{-20, -10, 40, 20}.translated(2, 2), m_cname);
 }
 
 void
