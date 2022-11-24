@@ -17,7 +17,7 @@
 
 static const QString classPattern
 {
-    R"RE(\b(class|struct)\s+(?<cname>[A-Za-z_]\w*)\s*:?(?<inhspec>\s*(public|private|protected)?\s+([A-Za-z_]+\w*)(,\s*(public\s|private\s|protected\s)?\s*([A-Za-z_]+\w*))*)?\s*{(?Us:.*)}\s*;)RE"
+    R"RE(\b(class|struct)\s+(?<cname>[A-Za-z_]\w*)\s*:?(?<inhspec>\s*(public|private|protected)?\s*([A-Za-z_]+\w*)(,\s*(public\s|private\s|protected\s)?\s*([A-Za-z_]+\w*))*)?\s*{(?Us:.*)}\s*;)RE"
 };
 
 QtFileGraph::QtFileGraph(QWidget* parent)
