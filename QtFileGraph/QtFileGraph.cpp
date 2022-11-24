@@ -8,6 +8,7 @@
 #include <QHash>
 #include <QKeyEvent>
 #include <QMessageBox>
+#include <QPair>
 #include <QRandomGenerator>
 #include <QRegularExpression>
 #include <QTextStream>
@@ -319,15 +320,50 @@ QtFileGraph::openFile()
     m_centerNode = new ClassNode{ this, info.fileName() };
     scene()->addItem(m_centerNode);
 
-    QHash<QString, ClassNode*> matches{};
+    QHash<QString, QPair<ClassNode*, QStringList>> matches{};
     for (auto it{ rx.globalMatch(contents) }; it.hasNext();)
     {
         auto match{ it.next() };
-        qDebug() << match.captured("inhspec");
 
         auto node{ new ClassNode{this, match.captured("cname")} };
-
-        matches.insert(match.captured("cname"), node);
         scene()->addItem(node);
+
+        qDebug() << "Splits for class " << match.captured("cname");
+        QStringList parents{};
+        for (const auto& p : match.captured("inhspec").split(",", QString::SkipEmptyParts))
+        {
+            qDebug() << p.split(" ", QString::SkipEmptyParts);
+            parents << p.split(" ", QString::SkipEmptyParts).last();
+        }
+
+        matches.insert(match.captured("cname"),
+                       {node, parents});
+    }
+
+    /* connect top-level classes */
+    for (const auto& k : matches.keys())
+    {
+        /**
+          top-level class either:
+          1) has no parents
+          2) is not declared in header file
+        */
+
+        /* test 1) */
+        if (matches[k].second.size() <= 0)
+        {
+            qDebug() << "Found top-level: " << k;
+            scene()->addItem(new Edge{m_centerNode, matches[k].first});
+        }
+
+        /* test 2) */
+        for (const auto& parent : matches[k].second)
+        {
+            if (!matches.contains(parent))
+            {
+                qDebug() << "Found top-level: " << k;
+                scene()->addItem(new Edge{m_centerNode, matches[k].first});
+            }
+        }
     }
 }
