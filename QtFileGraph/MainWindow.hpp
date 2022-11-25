@@ -18,6 +18,11 @@ public:
 
     ~MainWindow();
 
+private slots:
+
+    void
+    saveScreenshot();
+
 private:
 
     void
@@ -27,6 +32,7 @@ private:
     QAction* m_clearAct;
     QAction* m_openAct;
     QAction* m_quitAct;
+    QAction* m_screenshotAct;
 };
 
 #endif /* MAINWINDOW_HPP */
