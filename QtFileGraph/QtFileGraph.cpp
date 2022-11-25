@@ -32,28 +32,7 @@ QtFileGraph::QtFileGraph(QWidget* parent)
     setViewportUpdateMode(BoundingRectViewportUpdate);
     setRenderHint(QPainter::Antialiasing);
     setTransformationAnchor(AnchorUnderMouse);
-    // scale(qreal{.8}, qreal{.8});
     setMinimumSize(1300, 730);
-
-    /*
-    m_centerNode = new ClassNode{ this };
-
-    auto node1 = new ClassNode{ this };
-    auto node2 = new ClassNode{ this };
-
-    m_centerNode->setCname("Parent");
-    node1->setCname("Child1");
-    node2->setCname("Child2");
-
-    scene->addItem(m_centerNode);
-    scene->addItem(node1);
-    scene->addItem(node2);
-    scene->addItem(new Edge{ m_centerNode, node1 });
-    scene->addItem(new Edge{ m_centerNode, node2 });
-
-    m_centerNode->setPos(0, 0);
-    node1->setPos(0, 50);
-    */
 }
 
 void
@@ -70,32 +49,12 @@ QtFileGraph::keyPressEvent(QKeyEvent* event)
 {
     switch (event->key())
     {
-    /*
-    case Qt::Key_Up:
-        m_centerNode->moveBy(0, -20);
-        break;
-    case Qt::Key_Down:
-        m_centerNode->moveBy(0, 20);
-        break;
-    case Qt::Key_Left:
-        m_centerNode->moveBy(-20, 0);
-        break;
-    case Qt::Key_Right:
-        m_centerNode->moveBy(20, 0);
-        break;
-    */
     case Qt::Key_Plus:
         zoomIn();
         break;
     case Qt::Key_Minus:
         zoomOut();
         break;
-    /*
-    case Qt::Key_Space:
-    case Qt::Key_Enter:
-        m_shuffle();
-        break;
-    */
     default:
         QGraphicsView::keyPressEvent(event);
     }
@@ -104,37 +63,6 @@ QtFileGraph::keyPressEvent(QKeyEvent* event)
 void
 QtFileGraph::timerEvent(QTimerEvent*)
 {
-    /*
-    QVector<ClassNode*> nodes{};
-
-    for (auto item : scene()->items())
-    {
-        if (auto node = qgraphicsitem_cast<ClassNode*>(item))
-        {
-            nodes.append(node);
-        }
-    }
-
-    for (auto node : qAsConst(nodes))
-    {
-        node->calculateForces();
-    }
-
-    bool itemsMoved{ false };
-    for (auto node : qAsConst(nodes))
-    {
-        if (node->advancePosition())
-        {
-            itemsMoved = true;
-        }
-    }
-
-    if (!itemsMoved)
-    {
-        killTimer(m_timerId);
-        m_timerId = 0;
-    }
-    */
     QList<ClassNode*> nodes{};
 
     for (auto item : scene()->items())
@@ -165,30 +93,6 @@ QtFileGraph::timerEvent(QTimerEvent*)
         killTimer(m_timerId);
         m_timerId = 0;
     }
-
-
-    /*
-    QList<ClassNode *> nodes;
-        foreach (QGraphicsItem *item, scene()->items()) {
-            if (ClassNode *node = qgraphicsitem_cast<ClassNode *>(item))
-                nodes << node;
-        }
-
-        foreach (ClassNode *node, nodes)
-            node->calculateForces();
-
-        bool itemsMoved = false;
-        foreach (ClassNode *node, nodes) {
-            if (node->advancePosition())
-                itemsMoved = true;
-        }
-
-        if (!itemsMoved) {
-            killTimer(m_timerId);
-            m_timerId = 0;
-        }
-        */
-
 }
 
 #if QT_CONFIG(wheelevent)
@@ -196,7 +100,6 @@ void
 QtFileGraph::wheelEvent(QWheelEvent* event)
 {
     scaleView(pow(2., -event->angleDelta().y() / 240.0));
-    // scaleView(pow(2., -event->delta() / 240.));
 }
 #endif
 
@@ -204,7 +107,7 @@ void
 QtFileGraph::drawBackground(QPainter* painter,
                             const QRectF& rect)
 {
-    // Shadow
+    /* shadow */
     auto sceneRect = this->sceneRect();
 
     QRectF rightShadow{sceneRect.right(),
@@ -249,20 +152,6 @@ QtFileGraph::scaleView(qreal scaleFactor)
 
     scale(scaleFactor, scaleFactor);
 }
-
-/*
-void
-QtFileGraph::shuffle()
-{
-    for (auto item : scene()->items())
-        if (qgraphicsitem_cast<ClassNode*>(item))
-        {
-            item->setPos(-150 + QRandomGenerator::global()->bounded(300),
-                         -150 + QRandomGenerator::global()->bounded(300));
-        }
-    }
-}
-*/
 
 void
 QtFileGraph::zoomIn()
@@ -319,12 +208,6 @@ QtFileGraph::openFile()
     /* reset scene */
     scene()->clear();
 
-    /*
-    QFileInfo info{ fileName };
-    m_centerNode = new ClassNode{ this, info.fileName() };
-    scene()->addItem(m_centerNode);
-    */
-
     QHash<QString, QPair<ClassNode*, QStringList>> matches{};
     for (auto it{ rx.globalMatch(contents) }; it.hasNext();)
     {
@@ -373,38 +256,4 @@ QtFileGraph::openFile()
             scene()->addItem(new Edge{matches[parent].first, matches[key].first});
         }
     }
-
-#if 0
-    /* connect top-level classes */
-    for (const auto& k : matches.keys())
-    {
-        /**
-          top-level class either:
-          1) has no parents
-          2) is not declared in header file
-        */
-
-        /* test 1) */
-        if (matches[k].second.size() <= 0)
-        {
-            qDebug() << "Found top-level (1): " << k;
-            scene()->addItem(new Edge{m_centerNode, matches[k].first});
-        }
-
-        /* test 2) */
-        for (const auto& parent : matches[k].second)
-        {
-            if (!matches.contains(parent))
-            {
-                qDebug() << "Found top-level (2): " << parent;
-                // scene()->addItem(new ClassNode{this, parent}); /* previously did not exist */
-                scene()->addItem(new Edge{m_centerNode, matches[k].first});
-            }
-            else
-            {
-                scene()->addItem(new Edge{matches[parent].first, matches[k].first});
-            }
-        }
-    }
-#endif
 }

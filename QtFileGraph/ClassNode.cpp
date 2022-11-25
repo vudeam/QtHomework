@@ -141,7 +141,6 @@ ClassNode::shape() const
 {
     QPainterPath path{};
     path.addRect(-20, -10, 40, 20);
-    // path.addEllipse(-10, -10, 20, 20);
 
     return path;
 }
@@ -153,26 +152,8 @@ ClassNode::paint(QPainter* painter,
 {
     /* shadow */
     painter->setPen(Qt::NoPen);
-    painter->setBrush(Qt::darkGray); // TODO: change colors?
+    painter->setBrush(Qt::darkGray);
     painter->drawRect(-18, -7, 40, 20);
-
-    /*
-    QRadialGradient grad{ -3, -3, 10 };
-    if (QStyle::State_Sunken & opt->state)
-    {
-        grad.setCenter(3, 3);
-        grad.setFocalPoint(3, 3);
-        grad.setColorAt(1, QColor{Qt::yellow}.lighter(120));
-        grad.setColorAt(0, QColor{Qt::darkYellow}.lighter(120));
-    }
-    else
-    {
-        grad.setColorAt(0, Qt::yellow);
-        grad.setColorAt(1, Qt::darkYellow);
-    }
-
-    painter->setBrush(grad);
-    */
 
     painter->setBrush(Qt::darkCyan);
     painter->setPen(QPen{Qt::black, 0});
