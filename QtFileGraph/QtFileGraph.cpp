@@ -9,7 +9,6 @@
 #include <QKeyEvent>
 #include <QMessageBox>
 #include <QPair>
-#include <QRandomGenerator>
 #include <QRegularExpression>
 #include <QTextStream>
 
@@ -36,6 +35,7 @@ QtFileGraph::QtFileGraph(QWidget* parent)
     // scale(qreal{.8}, qreal{.8});
     setMinimumSize(1300, 730);
 
+    /*
     m_centerNode = new ClassNode{ this };
 
     auto node1 = new ClassNode{ this };
@@ -53,6 +53,7 @@ QtFileGraph::QtFileGraph(QWidget* parent)
 
     m_centerNode->setPos(0, 0);
     node1->setPos(0, 50);
+    */
 }
 
 void
@@ -69,6 +70,7 @@ QtFileGraph::keyPressEvent(QKeyEvent* event)
 {
     switch (event->key())
     {
+    /*
     case Qt::Key_Up:
         m_centerNode->moveBy(0, -20);
         break;
@@ -81,6 +83,7 @@ QtFileGraph::keyPressEvent(QKeyEvent* event)
     case Qt::Key_Right:
         m_centerNode->moveBy(20, 0);
         break;
+    */
     case Qt::Key_Plus:
         zoomIn();
         break;
@@ -316,9 +319,11 @@ QtFileGraph::openFile()
     /* reset scene */
     scene()->clear();
 
+    /*
     QFileInfo info{ fileName };
     m_centerNode = new ClassNode{ this, info.fileName() };
     scene()->addItem(m_centerNode);
+    */
 
     QHash<QString, QPair<ClassNode*, QStringList>> matches{};
     for (auto it{ rx.globalMatch(contents) }; it.hasNext();)
@@ -340,6 +345,36 @@ QtFileGraph::openFile()
                        {node, parents});
     }
 
+    /* create top-level */
+    const auto keys{ matches.keys() };
+    for (const auto& k : keys)
+    {
+        const auto parents{ matches[k].second };
+        for (const auto& p : parents)
+        {
+            qDebug() << "Testing parent " << p << " of class " << k;
+            if (!matches.contains(p))
+            {
+                qDebug() << "New top-level " << p;
+                auto node{ new ClassNode{this, p} };
+                matches.insert(p,
+                               {node, {}});
+                scene()->addItem(node);
+            }
+        }
+    }
+
+    /* create edges for all nodes */
+    for (const auto& key : matches.keys())
+    {
+        for (const auto& parent : matches[key].second)
+        {
+            qDebug() << "Connecting " << key << " with parent " << parent;
+            scene()->addItem(new Edge{matches[parent].first, matches[key].first});
+        }
+    }
+
+#if 0
     /* connect top-level classes */
     for (const auto& k : matches.keys())
     {
@@ -371,4 +406,5 @@ QtFileGraph::openFile()
             }
         }
     }
+#endif
 }
