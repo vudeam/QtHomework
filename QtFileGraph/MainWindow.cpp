@@ -65,11 +65,6 @@ MainWindow::createMenus()
     editMenu->addAction(m_screenshotAct);
     connect(m_screenshotAct, &QAction::triggered,
             this, &MainWindow::saveScreenshot);
-    {
-        auto shot{ m_graph->grab() };
-        QFile out("D:\\Temp\\screenshot.png");
-        shot.save(&out, "PNG");
-    }
 }
 
 void

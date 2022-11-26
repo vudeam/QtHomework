@@ -12,8 +12,6 @@
 #include <QRegularExpression>
 #include <QTextStream>
 
-#include <QDebug> // DELETE
-
 
 static const QString classPattern
 {
@@ -216,11 +214,9 @@ QtFileGraph::openFile()
         auto node{ new ClassNode{this, match.captured("cname")} };
         scene()->addItem(node);
 
-        qDebug() << "Splits for class " << match.captured("cname");
         QStringList parents{};
         for (const auto& p : match.captured("inhspec").split(",", QString::SkipEmptyParts))
         {
-            qDebug() << p.split(" ", QString::SkipEmptyParts);
             parents << p.split(" ", QString::SkipEmptyParts).last();
         }
 
@@ -235,10 +231,8 @@ QtFileGraph::openFile()
         const auto parents{ matches[k].second };
         for (const auto& p : parents)
         {
-            qDebug() << "Testing parent " << p << " of class " << k;
             if (!matches.contains(p))
             {
-                qDebug() << "New top-level " << p;
                 auto node{ new ClassNode{this, p} };
                 matches.insert(p,
                                {node, {}});
@@ -252,7 +246,6 @@ QtFileGraph::openFile()
     {
         for (const auto& parent : matches[key].second)
         {
-            qDebug() << "Connecting " << key << " with parent " << parent;
             scene()->addItem(new Edge{matches[parent].first, matches[key].first});
         }
     }
